@@ -1,38 +1,40 @@
-import chainlit as cl
+import streamlit as st
 from Llm_pipeline.pipeline import create_qa_chain, qa_bot_answer, load_llm, custom_prompt
 from Topic_router.topic_router import topic_to_response
+import asyncio
 
+# Initialize the QA chain and store it in Streamlit's session state
+@st.cache_resource
+def initialize_qa_chain():
+    return create_qa_chain(load_llm=load_llm, custom_prompt=custom_prompt)
 
-#Automatically start the chat when the app is launched
-@cl.on_chat_start
-async def start():
+# Streamlit app
+def main():
+    st.title("CampusQuest Chatbot")
+    st.write("Welcome! Ask me anything about Salem State University admissions.")
 
-    qa_chain = create_qa_chain(load_llm=load_llm, custom_prompt=custom_prompt)
-    print("LLM Loader:", load_llm)
-    print("Prompt Template:", custom_prompt)
-    welcome_message = cl.Message(content = "Welcome! Ask me anything:")
-    await welcome_message.send()
+    # Initialize the QA chain and store it in session state
+    if "qa_chain" not in st.session_state:
+        st.session_state.qa_chain = initialize_qa_chain()
 
-#Specific to each user session where multiple users interace w/the bot simultaneously
-    cl.user_session.set("chain", qa_chain) 
+    # User input
+    user_input = st.text_input("Your Question:", key="user_input")
 
-# This is the tool that will be called by the LLM 
-@cl.step(type="tool")
-async def process_tool(message: cl.Message):
-    qa_chain = cl.user_session.get("chain")
-    cb = cl.AsyncLangchainCallbackHandler(stream_final_answer=True, answer_prefix_tokens=["FINAL", "ANSWER"])
-    cb.answer_reached = True
+    if user_input:
+        # Process the input and generate a response
+        with st.spinner("Generating response..."):
+            # Retrieve the QA chain from session state
+            qa_chain = st.session_state.qa_chain
 
-    #waiting to call the chain which includes the LLM and the retriever
-    response = await qa_chain.ainvoke({"input": message.content}, config={"callbacks": [cb]})
-    return response
+            # Call the chain asynchronously
+            response = asyncio.run(qa_chain.ainvoke({"input": user_input}))
 
-#This will display the final answer from the bot
-@cl.on_message
-async def main(message: cl.Message):
-    
-    tool_response = await process_tool(message)
+            # Use qa_bot_answer to handle the final response
+            bot_response = asyncio.run(qa_bot_answer(user_input, qa_chain, response, None))
 
-    bot_response = await qa_bot_answer(message.content, cl.user_session.get("chain"), tool_response, topic_to_response)
+        # Display the response
+        st.write("### Response:")
+        st.write(bot_response["result"])
 
-    await cl.Message(content=bot_response["result"]).send()
+if __name__ == "__main__":
+    main()

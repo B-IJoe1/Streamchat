@@ -60,10 +60,10 @@ def create_qa_chain(load_llm, custom_prompt):
    prompt = custom_prompt()
    
     #Validate types
-   #if not isinstance(llm, Runnable):
-    #raise TypeError(f"Expected 'llm' to be a Runnable, got {type(llm)}")
-   #if not isinstance(prompt, BasePromptTemplate):
-      #raise TypeError(f"Expected 'prompt' to be a BasePromptTemplate, got {type(prompt)}")
+   if not isinstance(llm, Runnable):
+    raise TypeError(f"Expected 'llm' to be a Runnable, got {type(llm)}")
+   if not isinstance(prompt, BasePromptTemplate):
+      raise TypeError(f"Expected 'prompt' to be a BasePromptTemplate, got {type(prompt)}")
    
    
 
@@ -83,8 +83,8 @@ def create_qa_chain(load_llm, custom_prompt):
 print("QA bot initialized successfully with sentence transformer!")
 
 # Return a callable function for Chainlit to use
-async def qa_bot_answer(user_input, qa_chain, retriever):
-    docs = retriever.get_relevant_documents(user_input)
+async def qa_bot_answer(user_input, qa_chain):
+    docs = qa_chain.get_relevant_documents(user_input)
 
     
     if docs:
