@@ -8,10 +8,16 @@ version = "0.1.0"
 description = "A project for admissions QA bot"
 authors = [{name = "Joseph Severe"}]
 dependencies = [
+   "torch ; platform_system=='Darwin'",  # CPU-only PyTorch for macOS
+    "torch==2.0.1+cu121 ; platform_system!='Darwin'",  # CUDA-enabled PyTorch for Linux/Windows
+    "torchvision==0.15.2+cu121 ; platform_system!='Darwin'",
+    "torchaudio==2.0.2+cu121 ; platform_system!='Darwin'",
+    "streamlit",
     "langchain",
-    "faiss-cpu",
     "sentence-transformers",
-    "chainlit",
+    "transformers",
+    "faiss-cpu",
+    "bertopic",
     "toml",
 ]
 

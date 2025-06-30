@@ -1,0 +1,17 @@
+# Core dependencies
+streamlit
+langchain-community
+langchain-huggingface
+sentence-transformers
+transformers
+faiss-cpu
+bertopic
+toml
+
+# PyTorch (CPU-only for local development)
+torch
+torchvision
+torchaudio
+
+# Optional: Add any other dependencies your project uses
+
