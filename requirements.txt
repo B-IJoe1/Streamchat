@@ -1,3 +1,6 @@
+ # Upgrade pip if needed
+pip --upgrade
+
 # Core dependencies
 streamlit
 langchain-community
