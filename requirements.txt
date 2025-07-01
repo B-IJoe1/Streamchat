@@ -1,19 +1,18 @@
  # Upgrade pip if needed
-pip==25.1.1
+
 # Core dependencies
 streamlit
 langchain-community
 langchain-huggingface
 sentence-transformers
 transformers
-faiss-cpu
 bertopic
 toml
 
 # PyTorch with CUDA support
-torch==2.0.1+cu121 --index-url https://download.pytorch.org/whl/cu121
-torchvision==0.15.2+cu121 --index-url https://download.pytorch.org/whl/cu121
-torchaudio==2.0.2+cu121 --index-url https://download.pytorch.org/whl/cu121
+torch==2.0.1
+torchvision==0.15.2
+torchaudio==2.0.2
 
 # Optional: Add any other dependencies your project uses
 
