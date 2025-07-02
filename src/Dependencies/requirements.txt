@@ -4,14 +4,15 @@ langchain-community
 langchain-huggingface
 sentence-transformers
 transformers
-faiss-cpu
 bertopic
 toml
 
-# PyTorch (CPU-only for local development)
-torch==2.0.1
-torchvision==0.15.2
-torchaudio==2.0.2
 
-# Optional: Add any other dependencies your project uses
+# PyTorch with cpu support
+torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
+torchvision==0.17.2 --index-url https://download.pytorch.org/whl/cpu
+torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cpu
+
+
+
 
