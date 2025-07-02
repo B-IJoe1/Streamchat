@@ -10,9 +10,9 @@ numpy==1.26.4
 
 
 # PyTorch with cpu support
-torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
+torch==2.0.1 --index-url https://download.pytorch.org/whl/cpu
 torchvision==0.17.2 --index-url https://download.pytorch.org/whl/cpu
-torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cpu
+torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cpu
 
 
 
