@@ -6,6 +6,7 @@ sentence-transformers
 transformers
 bertopic
 toml
+numpy==1.26.4
 
 
 # PyTorch with cpu support
